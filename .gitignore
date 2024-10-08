@@ -1,0 +1,7 @@
+characters_counter/__pycache__/
+tests/__pycache__/
+myenv/
+.git/
+.idea
+.pytest_cache
+.coverage
