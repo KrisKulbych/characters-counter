@@ -11,9 +11,6 @@ def count_characters_occurrence(string: str) -> int:
     once.
     """
     characters_counts = Counter(string)
-    unique_occurrences = filter(
-        lambda occurrence: (occurrence == REQUIREMENT_OCCURRENCE),
-        characters_counts.values(),
-    )
+    unique_occurrences = filter(lambda occurrence: (occurrence == REQUIREMENT_OCCURRENCE), characters_counts.values())
     unique_characters_number = sum(unique_occurrences)
     return unique_characters_number
