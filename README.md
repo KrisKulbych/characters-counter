@@ -1,3 +1,5 @@
+[![characters-counter-build](https://github.com/KrisKulbych/characters-counter/actions/workflows/build.yaml/badge.svg)](https://github.com/KrisKulbych/characters-counter/actions/workflows/build.yaml)
+
 # Characters Counter Application 
 
 ## Description
