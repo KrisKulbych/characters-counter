@@ -5,18 +5,9 @@ from characters_counter import count_characters_occurrence
 
 class TestCharactersCounter:
     @pytest.mark.parametrize(
-        "input_text, expected_result",
-        [
-            ("abbbcccdf", 3),
-            ("aabbccdd", 0),
-            ("!@#123abcdee", 10),
-            ("", 0),
-            ("aAbBcC", 6),
-        ],
+        "input_text, expected_result", [("abbbcccdf", 3), ("aabbccdd", 0), ("!@#123abcdee", 10), ("", 0), ("aAbBcC", 6)]
     )
-    def test_count_characters_occurrence(
-        self, input_text: str, expected_result: str
-    ) -> None:
+    def test_count_characters_occurrence(self, input_text: str, expected_result: str) -> None:
         assert count_characters_occurrence(input_text) == expected_result
 
     @pytest.mark.parametrize("input_text", [123, 30.6, [], {}, set()])
