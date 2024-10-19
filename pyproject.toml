@@ -1,0 +1,29 @@
+[tool.black]
+line_length = 120
+target-version = ['py312']
+skip_magic_trailing_comma = true
+
+[tool.isort]
+line_length = 120
+profile = "black"
+py_version = 312
+skip_glob = ["myenv"]
+multi_line_output = 3
+
+[tool.mypy]
+python_version = "3.12"
+ignore_missing_imports = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+warn_no_return = true
+show_error_context = true
+show_column_numbers = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+addopts = "--cov=. --cov-fail-under=90"
+testpaths = [
+    "tests",
+]
