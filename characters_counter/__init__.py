@@ -1,1 +1,1 @@
-from .characters_counter import count_characters_occurrence
+from .characters_counter import count_character_frequency, count_characters_occurrence
