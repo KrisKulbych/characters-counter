@@ -50,7 +50,7 @@ class TestCharacterFrequency:
         assert result == expected_result
 
     def test_count_character_frequency_with_correct_filepath_input_using_textfile_sample(self) -> None:
-        text_file = Path("tests\\text_sample.txt")
+        text_file = Path("tests") / "text_sample.txt"
         # assert text_file.exists()
         result = count_character_frequency(text_file)
         expected_result = {
