@@ -1,9 +1,8 @@
 import collections
 import re
-from collections import Counter
+from collections import Counter, defaultdict
 from functools import cache
 from pathlib import Path
-from typing import Dict, Union
 
 REQUIREMENT_OCCURRENCE = 1
 NUM_OF_MOST_COMMON_CHARACTERS = 3
@@ -20,33 +19,38 @@ def count_characters_occurrence(string: str) -> int:
     return unique_characters_number
 
 
-def count_character_frequency(data_input: Union[str, Path]) -> Dict[str, int]:
+def get_frequent_characters_per_sentence(sentence: str) -> dict:
     """
-    The function returns most used letters/symbols per sentence depending on NUM_OF_MOST_COMMON_CHARACTERS constant.
-    Single word is considered as sentence as well.
-    :param data_input: str or filepath
-    :return: dict
+    The helper function counts the frequency of each character in the input sentence, excluding spaces.
+    Single word is considered as a sentence as well.
+    The number of characters returned is controlled by the global constant "NUM_OF_MOST_COMMON_CHARACTERS".
+    :param sentence: str
+    :return: dict[str, int]
     """
-    if not isinstance(data_input, str):
-        raise TypeError("Error! Data input must be a string or a filepath.")
-    elif isinstance(data_input, str) and not Path(data_input).suffix:
-        if data_input:
-            count_characters = Counter(data_input.replace(" ", ""))
-            character_frequency = dict(count_characters.most_common(NUM_OF_MOST_COMMON_CHARACTERS))
-        else:
-            raise ValueError("Error! Empty data input isn't allowed.")
-    else:
-        try:
-            with open(data_input, "r") as file:
-                text = file.read()
-                sentences = re.findall(r"\w+.*?[.?!]", text)
-                total: collections.Counter = Counter()
-                for sentence in sentences:
-                    count_characters = Counter(sentence.replace(" ", ""))
-                    total.update(count_characters)
-                character_frequency = dict(total.most_common(NUM_OF_MOST_COMMON_CHARACTERS))
-                print(type(total))
-        except IOError:
-            raise FileNotFoundError("Error! File isn't found.")
+    count_characters = Counter(sentence.replace(" ", ""))
+    return dict(count_characters.most_common(NUM_OF_MOST_COMMON_CHARACTERS))
 
-    return dict(character_frequency)
+
+def count_character_frequency(data_input: Path) -> defaultdict[str, Counter[str]] | dict[str, int] | None:
+    """
+    The function counts most used letters/symbols in each sentence from the given textfile.
+    :param data_input: Path
+    :return: dict[str, int]
+    """
+    if Path(data_input).suffix:
+        try:
+            with open(data_input, "r") as text_file:
+                text = text_file.read()
+        except FileNotFoundError:
+            print("Error! The file is not found or cannot be opened.")
+        else:
+            sentences = re.findall(r"\w+.*?[.?!]", text)
+            character_frequency: collections.defaultdict = defaultdict(Counter)
+            for sentence in sentences:
+                frequent_characters_per_sentence = get_frequent_characters_per_sentence(sentence)
+                character_frequency[sentence].update(Counter(frequent_characters_per_sentence))
+            print(type(character_frequency))
+            return character_frequency
+
+    elif isinstance(data_input, str):
+        return get_frequent_characters_per_sentence(data_input)
