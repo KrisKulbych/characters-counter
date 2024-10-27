@@ -24,7 +24,7 @@ warn_unused_configs = true
 
 
 [tool.pytest.ini_options]
-addopts = "-v --cov=. --cov-fail-under=90 --basetemp=pytest_checks"
+addopts = "-v --cov=. --cov-fail-under=90 --basetemp=tests/pytest_tmp"
 testpaths = [
     "tests",
 ]
