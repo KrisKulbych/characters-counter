@@ -1,4 +1,3 @@
-import collections
 import re
 from collections import Counter, defaultdict
 from functools import cache
@@ -19,38 +18,42 @@ def count_characters_occurrence(string: str) -> int:
     return unique_characters_number
 
 
-def get_frequent_characters_per_sentence(sentence: str) -> dict:
+def get_frequent_characters_per_sentence(text: str) -> defaultdict[str, Counter[str]]:
     """
     The helper function counts the frequency of each character in the input sentence, excluding spaces.
     Single word is considered as a sentence as well.
     The number of characters returned is controlled by the global constant "NUM_OF_MOST_COMMON_CHARACTERS".
-    :param sentence: str
-    :return: dict[str, int]
     """
-    count_characters = Counter(sentence.replace(" ", ""))
-    return dict(count_characters.most_common(NUM_OF_MOST_COMMON_CHARACTERS))
+    sentences = re.split(r"[.?!]", text)
+    character_frequency: defaultdict = defaultdict(Counter)
+    for sentence in sentences:
+        sentence = sentence.lstrip()
+        count_characters = Counter(sentence.replace(" ", ""))
+        frequent_characters_per_sentence = dict(count_characters.most_common(NUM_OF_MOST_COMMON_CHARACTERS))
+        character_frequency[sentence].update(Counter(frequent_characters_per_sentence))
+    return character_frequency
 
 
-def count_character_frequency(data_input: Path) -> defaultdict[str, Counter[str]] | dict[str, int] | None:
+def open_and_read_textfile(filepath: Path) -> str:
+    """
+    The helper function attempts to open a text file and reads its contents as a string.
+    If the file is not found, a FileNotFoundError is raised.
+    """
+    try:
+        with open(filepath, "r") as text_file:
+            text = text_file.read()
+            return text
+    except FileNotFoundError:
+        raise FileNotFoundError("Error! The file is not found or cannot be opened.")
+
+
+def count_character_frequency(data_input: Path) -> dict[str, Counter[str]]:
     """
     The function counts most used letters/symbols in each sentence from the given textfile.
-    :param data_input: Path
-    :return: dict[str, int]
     """
     if Path(data_input).suffix:
-        try:
-            with open(data_input, "r") as text_file:
-                text = text_file.read()
-        except FileNotFoundError:
-            print("Error! The file is not found or cannot be opened.")
-        else:
-            sentences = re.findall(r"\w+.*?[.?!]", text)
-            character_frequency: collections.defaultdict = defaultdict(Counter)
-            for sentence in sentences:
-                frequent_characters_per_sentence = get_frequent_characters_per_sentence(sentence)
-                character_frequency[sentence].update(Counter(frequent_characters_per_sentence))
-            print(type(character_frequency))
-            return character_frequency
-
-    elif isinstance(data_input, str):
-        return get_frequent_characters_per_sentence(data_input)
+        text = open_and_read_textfile(data_input)
+    else:
+        text = str(data_input)
+    character_frequency = get_frequent_characters_per_sentence(text)
+    return dict(character_frequency)
