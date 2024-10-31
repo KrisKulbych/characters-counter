@@ -12,10 +12,6 @@ class CustomFileNotFoundError(Exception):
     Raised when the file is not found or cannot be opened.
     """
 
-    def __init__(self, filepath: Path):
-        super().__init__(f"Error! The file {filepath} is not found or cannot be opened.")
-        self.filepath = filepath
-
 
 @cache
 def count_characters_occurrence(string: str) -> int:
@@ -53,7 +49,7 @@ def open_and_read_textfile(filepath: Path) -> str:
         with open(filepath, "r") as text_file:
             return text_file.read()
     except FileNotFoundError as error:
-        raise CustomFileNotFoundError(filepath) from error
+        raise CustomFileNotFoundError(f"Error! The file {filepath} is not found or cannot be opened.") from error
 
 
 def count_character_frequency(data_input: Path | str) -> dict[str, dict[str, int]]:
