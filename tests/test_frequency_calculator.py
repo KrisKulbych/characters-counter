@@ -5,9 +5,7 @@ import pytest
 from _pytest.logging import LogCaptureFixture
 from typer.testing import CliRunner
 
-from frequency_calculator import app
-
-runner = CliRunner()
+from characters_counter.frequency_calculator import app
 
 
 class TestFrequencyCalculator:
@@ -24,7 +22,9 @@ class TestFrequencyCalculator:
         "": {},
     }
 
-    def test_calculate_with_both_arguments(self, caplog: LogCaptureFixture, sample_textfile: Path) -> None:
+    def test_calculate_with_both_arguments(
+        self, runner: CliRunner, caplog: LogCaptureFixture, sample_textfile: Path
+    ) -> None:
         caplog.set_level(logging.DEBUG)
         # Given
         result = runner.invoke(app, ["-f", str(sample_textfile), "-p", "python"])
@@ -33,7 +33,9 @@ class TestFrequencyCalculator:
         assert "Warning! Both arguments is provided. Application will prioritize file." in caplog.text
         assert str(self.EXPECTED_RESULT) in caplog.text
 
-    def test_calculate_with_file_argument(self, caplog: LogCaptureFixture, sample_textfile: Path) -> None:
+    def test_calculate_with_file_argument(
+        self, runner: CliRunner, caplog: LogCaptureFixture, sample_textfile: Path
+    ) -> None:
         caplog.set_level(logging.DEBUG)
         # Given
         result = runner.invoke(app, ["-f", str(sample_textfile)])
@@ -53,7 +55,7 @@ class TestFrequencyCalculator:
         ],
     )
     def test_calculate_with_paragraph_argument(
-        self, caplog: LogCaptureFixture, data_input: str, expected_result: str
+        self, runner: CliRunner, caplog: LogCaptureFixture, data_input: str, expected_result: str
     ) -> None:
         caplog.set_level(logging.DEBUG)
         # Given
@@ -63,12 +65,10 @@ class TestFrequencyCalculator:
         assert "Calculating characters in paragraph..." in caplog.text
         assert str(expected_result) in caplog.text
 
-    def test_calculate_with_empty_input(self, caplog: LogCaptureFixture) -> None:
+    def test_calculate_with_empty_input(self, runner: CliRunner, caplog: LogCaptureFixture) -> None:
         caplog.set_level(logging.ERROR)
+        # Given
         result = runner.invoke(app)
-        assert result.exit_code == 0
+        # When / Then
+        assert result.exit_code == 1
         assert "Error! Please provide either --file or --paragraph for character counting." in caplog.text
-
-
-if __name__ == "__main__":
-    pytest.main()
