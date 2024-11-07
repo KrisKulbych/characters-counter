@@ -1,4 +1,4 @@
-from characters_counter import app
+from charcounter import app
 
 if __name__ == "__main__":
     app()

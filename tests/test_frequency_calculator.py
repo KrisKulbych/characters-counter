@@ -5,7 +5,7 @@ import pytest
 from _pytest.logging import LogCaptureFixture
 from typer.testing import CliRunner
 
-from characters_counter.frequency_calculator import app
+from charcounter.frequency_calculator import app
 
 
 class TestFrequencyCalculator:
@@ -30,7 +30,7 @@ class TestFrequencyCalculator:
         result = runner.invoke(app, ["-f", str(sample_textfile), "-p", "python"])
         # When / Then
         assert result.exit_code == 0
-        assert "Warning! Both arguments is provided. Application will prioritize file." in caplog.text
+        assert "Warning! Both arguments are provided. Application will prioritize file." in caplog.text
         assert str(self.EXPECTED_RESULT) in caplog.text
 
     def test_calculate_with_file_argument(

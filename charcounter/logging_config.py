@@ -1,7 +1,7 @@
 import logging
 
 
-def setup_logging() -> logging.Logger:
+def _logger_factory() -> logging.Logger:
     logger = logging.getLogger(__name__)
     logger.setLevel("DEBUG")
     formatter = logging.Formatter("{asctime} - {levelname} - {message}", style="{", datefmt="%Y-%m-%d %H:%M")
@@ -12,3 +12,6 @@ def setup_logging() -> logging.Logger:
     logger.addHandler(console_handler)
 
     return logger
+
+
+logger: logging.Logger = _logger_factory()

@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from characters_counter import CustomFileNotFoundError, count_character_frequency
+from charcounter import CustomFileNotFoundError, count_character_frequency
 
 
 class TestCharacterFrequency:

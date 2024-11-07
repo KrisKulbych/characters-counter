@@ -12,13 +12,6 @@ CONTENT = (
 )
 
 
-@pytest.fixture()
-def sample_textfile(tmp_path: Path) -> Iterator[Path]:
-    tmp_file_path = tmp_path / "tmp_text_sample.txt"
-    tmp_file_path.write_text(CONTENT)
-    yield tmp_file_path
-
-
 @pytest.fixture(scope="session")
 def existing_textfile() -> Path:
     existing_textfile_path = Path("tests") / "text_sample.txt"
@@ -28,3 +21,10 @@ def existing_textfile() -> Path:
 @pytest.fixture(scope="session")
 def runner() -> CliRunner:
     return CliRunner()
+
+
+@pytest.fixture()
+def sample_textfile(tmp_path: Path) -> Iterator[Path]:
+    tmp_file_path = tmp_path / "tmp_text_sample.txt"
+    tmp_file_path.write_text(CONTENT)
+    yield tmp_file_path

@@ -1,6 +1,6 @@
 import pytest
 
-from characters_counter import count_characters_occurrence
+from charcounter import count_characters_occurrence
 
 
 class TestCharactersCounter:
