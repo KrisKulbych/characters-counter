@@ -35,7 +35,7 @@ omit = [
 
 [tool.poetry]
 name = "characters-counter"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
 authors = ["Kristina Kulbych <k.kulbych@gmail.com>"]
 readme = "README.md"
