@@ -14,4 +14,4 @@ def _logger_factory() -> logging.Logger:
     return logger
 
 
-logger: logging.Logger = _logger_factory()
+logger = _logger_factory()

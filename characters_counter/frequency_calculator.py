@@ -4,7 +4,7 @@ from typing import Annotated
 
 from typer import Option, Typer
 
-from charcounter import count_character_frequency
+from characters_counter import count_character_frequency
 
 from .logging_config import logger
 

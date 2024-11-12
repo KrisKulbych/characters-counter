@@ -5,7 +5,7 @@ import pytest
 from _pytest.logging import LogCaptureFixture
 from typer.testing import CliRunner
 
-from charcounter.frequency_calculator import app
+from characters_counter.frequency_calculator import app
 
 
 class TestFrequencyCalculator:
