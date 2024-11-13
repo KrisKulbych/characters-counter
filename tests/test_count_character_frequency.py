@@ -66,7 +66,3 @@ class TestCharacterFrequency:
             CustomFileNotFoundError, match=f"Error! The file {invalid_filepath} is not found or cannot be opened."
         ):
             count_character_frequency(invalid_filepath)
-
-
-if __name__ == "__main__":
-    pytest.main()

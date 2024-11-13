@@ -16,7 +16,3 @@ class TestCharactersCounter:
     ) -> None:
         with pytest.raises(TypeError):
             count_characters_occurrence(input_text)
-
-
-if __name__ == "__main__":
-    pytest.main()

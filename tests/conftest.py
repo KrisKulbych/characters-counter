@@ -2,6 +2,7 @@ from pathlib import Path
 from typing import Iterator
 
 import pytest
+from typer.testing import CliRunner
 
 CONTENT = (
     "Typer is a library for building CLI applications that users will love using and developers "
@@ -11,14 +12,19 @@ CONTENT = (
 )
 
 
+@pytest.fixture(scope="session")
+def existing_textfile() -> Path:
+    existing_textfile_path = Path("tests") / "text_sample.txt"
+    return existing_textfile_path
+
+
+@pytest.fixture(scope="session")
+def runner() -> CliRunner:
+    return CliRunner()
+
+
 @pytest.fixture()
 def sample_textfile(tmp_path: Path) -> Iterator[Path]:
     tmp_file_path = tmp_path / "tmp_text_sample.txt"
     tmp_file_path.write_text(CONTENT)
     yield tmp_file_path
-
-
-@pytest.fixture(scope="session")
-def existing_textfile() -> Path:
-    existing_textfile_path = Path("tests") / "text_sample.txt"
-    return existing_textfile_path
