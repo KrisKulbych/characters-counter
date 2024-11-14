@@ -15,11 +15,12 @@ jobs:
           python-version: "3.12"
       - name: Install dependencies
         run: |
-          curl -sSL https://install.python-poetry.org | python -
+          curl -sSL https://install.python-poetry.org | python3.12 -
         env:
           POETRY_VIRTUALENVS_CREATE: false
       - name: Configure Test PyPI
         run: |
+          poetry config repositories.testpypi https://test.pypi.org/legacy/
           poetry config pypi-token.testpypi ${{ secrets.TESTPYPI_TOKEN }}
       - name: Build package
         run: |
