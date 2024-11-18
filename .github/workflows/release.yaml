@@ -1,4 +1,4 @@
-name: characters-counter-publish-to-PyPI
+name: characters-counter-publish-to-TestPyPI
 on:
   release:
     types: [published]
