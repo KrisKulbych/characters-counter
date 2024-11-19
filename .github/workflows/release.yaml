@@ -1,0 +1,31 @@
+name: characters-counter-publish-to-TestPyPI
+on:
+  release:
+    types: [published]
+
+jobs:
+  build_and_release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          allow-prereleases: true
+      - name: Install dependencies
+        run: |
+          curl -sSL https://install.python-poetry.org | python3.12 -
+        env:
+          POETRY_VIRTUALENVS_CREATE: false
+      - name: Configure Test PyPI
+        run: |
+          poetry config repositories.testpypi https://test.pypi.org/legacy/
+          poetry config pypi-token.testpypi ${{ secrets.TESTPYPI_TOKEN }}
+      - name: Build package
+        run: |
+          poetry build
+      - name: Upload package to Test PyPI
+        run: |
+          poetry publish --repository testpypi
